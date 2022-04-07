@@ -183,6 +183,7 @@ model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
                     'K-Nearest Neighbour','Support Vector Machine','Extreme Gradient Boost'], 'Accuracy': [LR_score*100,
                     RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100]})
 model_comp
+import mlxtend
 
 from sklearn import model_selection
 from sklearn.linear_model import LogisticRegression
