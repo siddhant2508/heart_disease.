@@ -13,4 +13,4 @@ xgboost
 click==8.1.1
 get_os_args
 pip==22.0.4
-pip install --upgrade pip
+
