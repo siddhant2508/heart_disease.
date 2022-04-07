@@ -261,7 +261,7 @@ print(sklearn_version)
 from pyngrok import ngrok
 
 
-%%writefile healthy-heart-app.py
+writefile healthy-heart-app.py
 import streamlit as st
 import base64
 import sklearn
