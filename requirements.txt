@@ -11,6 +11,5 @@ MarkupSafe==1.1.1
 scikit-learn
 xgboost
 click == 8.1
-get_os_args
 pip==22.0.4
 
