@@ -256,8 +256,8 @@ import sklearn
 sklearn_version = sklearn.__version__
 print(sklearn_version)
 
-pip  install  streamlit
-pip  install  pyngrok===4.1.1
+
+
 from pyngrok import ngrok
 
 
