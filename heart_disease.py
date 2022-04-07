@@ -1,7 +1,7 @@
 from gettext import install
 import numpy as np
 
-import matplotlib.pyplot as plt
+
 import pandas as pd
 
 
@@ -15,26 +15,10 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 df=pd.read_csv("heart.csv")
 df.head()
 
-df.info()
-df.isna().sum()
-
-df.sex.value_counts()
-df.sex[df.target==1].value_counts()
-
-df.sex[df.target==1].value_counts().plot(kind='bar',figsize=(10,6),color=['green','blue'])
-plt.title("Count of the number of males and females with heart disease")
-plt.xticks(rotation=0)
-
-pd.crosstab(df.target,df.sex)
-
-pd.crosstab(df.target,df.sex).plot(kind='bar',figsize=(10,6),color=["lightblue","pink"])
-plt.title("Frequency of Heart Disease vs Sex")
 
 
-df.corr()
-cor_mat=df.corr()
-fig,ax=plt.subplots(figsize=(15,10))
-sns.heatmap(cor_mat,annot=True,linewidths=0.5,fmt=".3f")
+
+
 
 from sklearn.preprocessing import MinMaxScaler
 scal=MinMaxScaler()
