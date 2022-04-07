@@ -190,7 +190,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB 
 from sklearn.ensemble import RandomForestClassifier
-import StackingCVClassifier
+from sklearn.ensemble import StackingCVClassifier
 scv=StackingCVClassifier(classifiers=[xgb,Knn_clf,RF_clf2],meta_classifier= Knn_clf)
 scv.fit(X_train,Y_train)
 scv_score=scv.score(X_test,Y_test)
