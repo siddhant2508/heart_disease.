@@ -401,6 +401,6 @@ if feedback:
   st.info("Caution: This is just a prediction and not doctoral advice. Kindly see a doctor if you feel the symptoms persist.")
 
 
-!nohup streamlit run healthy-heart-app.py &
+nohup streamlit run healthy-heart-app.py &
 url = ngrok.connect(port='8501')
 url
