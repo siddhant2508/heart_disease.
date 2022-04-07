@@ -1,7 +1,5 @@
 from gettext import install
 import numpy as np
-import scikit-learn
-import sklearn 
 
 import pandas as pd
 
