@@ -184,7 +184,12 @@ model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
                     RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100]})
 model_comp
 
-
+from sklearn import model_selection
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB 
+from sklearn.ensemble import RandomForestClassifier
+from mlxtend.classifier import StackingClassifier
 from mlxtend.classifier import StackingCVClassifier
 scv=StackingCVClassifier(classifiers=[xgb,Knn_clf,RF_clf2],meta_classifier= Knn_clf)
 scv.fit(X_train,Y_train)
