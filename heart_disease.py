@@ -573,7 +573,7 @@ def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,
 
        
     # front end elements of the web page
-    <!doctype html><
+    <doctype html><
     html lang="en">
     <head>
     <meta charset="utf-8"/>
