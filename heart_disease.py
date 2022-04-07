@@ -184,7 +184,7 @@ model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
                     'K-Nearest Neighbour','Support Vector Machine','Extreme Gradient Boost'], 'Accuracy': [LR_score*100,
                     RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100]})
 model_comp
-import mlxtend.classifier
+
 
 from mlxtend.classifier import StackingCVClassifier
 scv=StackingCVClassifier(classifiers=[xgb,Knn_clf,RF_clf2],meta_classifier= Knn_clf)
@@ -223,7 +223,7 @@ user_input=user_input.split(",")
 
 for i in range(len(user_input)):
     # convert each item to int type
-    user_input[i] = float(user_input[i])
+    user_input[i] = int(user_input[i])
 
 user_input=np.array(user_input)
 user_input=user_input.reshape(1,-1)
@@ -630,4 +630,3 @@ if feedback:
 
 url = ngrok.connect(port='8501')
 url
-
