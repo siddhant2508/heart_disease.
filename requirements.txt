@@ -12,4 +12,4 @@ scikit-learn
 xgboost
 click == 8.1
 pip==22.0.4
-
+mlxtend.classifier
