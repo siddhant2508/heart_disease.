@@ -184,6 +184,249 @@ model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
                     'K-Nearest Neighbour','Support Vector Machine','Extreme Gradient Boost'], 'Accuracy': [LR_score*100,
                     RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100]})
 model_comp
+import mlxtend.classifier
+
+from mlxtend.classifier import StackingCVClassifier
+scv=StackingCVClassifier(classifiers=[xgb,Knn_clf,RF_clf2],meta_classifier= Knn_clf)
+scv.fit(X_train,Y_train)
+scv_score=scv.score(X_test,Y_test)
+scv_Y_pred=scv.predict(X_test)
+#print(SVC_score)
+evaluation(Y_test,scv_Y_pred)
+
+model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
+                    'K-Nearest Neighbour','Support Vector Machine','Extreme Gradient Boost', 'StackingCV Classifier'], 'Accuracy': [LR_score*100,
+                    RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100, scv_score*100]})
+model_comp
+
+print(" Best evaluation parameters achieved with KNN:")
+evaluation(Y_test,scv_Y_pred)
+
+final_metrics={'Accuracy': scv.score(X_test,Y_test),
+                   'Precision': precision_score(Y_test,scv_Y_pred),
+                   'Recall': recall_score(Y_test,scv_Y_pred),
+                   'F1': f1_score(Y_test,scv_Y_pred),
+                   'AUC': roc_auc_score(Y_test,scv_Y_pred)}
+
+metrics=pd.DataFrame(final_metrics,index=[0])
+
+metrics.T.plot.bar(title='Final metric evaluation',legend=False);
+
+from sklearn.metrics import confusion_matrix
+
+
+
+
+user_input=input("Enter the values one by one")
+user_input=user_input.split(",")
+
+
+for i in range(len(user_input)):
+    # convert each item to int type
+    user_input[i] = float(user_input[i])
+
+user_input=np.array(user_input)
+user_input=user_input.reshape(1,-1)
+user_input=scal.transform(user_input)
+scv_Y_pred=scv.predict(user_input)
+if(scv_Y_pred[0]==0):
+  print("Warning! You have chances of getting a heart disease!")
+else:
+  print("You are healthy and are less likely to get a heart disease!")
+
+from gettext import install
+import numpy as np
+import pandas as pd
+
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+df=pd.read_csv("heart.csv")
+df.head()
+
+df.info()
+df.isna().sum()
+
+df.sex.value_counts()
+df.sex[df.target==1].value_counts()
+
+df.sex[df.target==1].value_counts().plot(kind='bar',figsize=(10,6),color=['green','blue'])
+
+
+pd.crosstab(df.target,df.sex)
+
+pd.crosstab(df.target,df.sex).plot(kind='bar',figsize=(10,6),color=["lightblue","pink"])
+
+df.corr()
+
+
+from sklearn.preprocessing import MinMaxScaler
+scal=MinMaxScaler()
+feat=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach' , 'exang', 'oldpeak' , 'slope', 'ca', 'thal']
+df[feat] = scal.fit_transform(df[feat])
+df.head()
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+features= ['age', 'trestbps', 'chol', 'thalach', 'oldpeak']
+#df[features] = scaler.fit_transform(df[features])
+df.head()
+
+X=df.drop("target",axis=1).values
+Y=df.target.values
+
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test=train_test_split(X,Y,random_state=0,test_size=0.2)
+
+
+from sklearn.metrics import accuracy_score,recall_score,f1_score,precision_score,roc_auc_score,confusion_matrix
+
+def evaluation(Y_test,Y_pred):
+  acc=accuracy_score(Y_test,Y_pred)
+  rcl=recall_score(Y_test,Y_pred)
+  f1=f1_score(Y_test,Y_pred)
+ 
+
+  metric_dict={'accuracy': round(acc,3),
+               'recall': round(rcl,3),
+               'F1 score': round(f1,3),
+               
+              }
+
+  return print(metric_dict)
+
+#evaluation(Y_test,SVC_Y_pred)
+
+np.random.seed(42)
+from sklearn.neighbors import KNeighborsClassifier
+Knn_clf=  KNeighborsClassifier()
+Knn_clf.fit(X_train,Y_train)
+Knn_Y_pred=Knn_clf.predict(X_test)
+Knn_score=Knn_clf.score(X_test,Y_test)
+#print(Knn_score)
+evaluation(Y_test,Knn_Y_pred)
+
+
+np.random.seed(42)
+from sklearn.linear_model import LogisticRegression
+LR_clf=LogisticRegression()
+LR_clf.fit(X_train,Y_train)
+LR_Y_pred=LR_clf.predict(X_test)
+LR_score=LR_clf.score(X_test,Y_test)
+#print(LR_score)
+evaluation(Y_test,LR_Y_pred)
+np.random.seed(42)
+from sklearn.ensemble import RandomForestClassifier
+RF_clf=RandomForestClassifier(n_estimators=450)
+RF_clf.fit(X_train,Y_train)
+RF_score=RF_clf.score(X_test,Y_test)
+RF_Y_pred=RF_clf.predict(X_test)
+#print(RF_score)
+evaluation(Y_test,RF_Y_pred)
+
+np.random.seed(42)
+from sklearn.svm import SVC
+SVC_clf=SVC()
+SVC_clf.fit(X_train,Y_train)
+SVC_score=SVC_clf.score(X_test,Y_test)
+SVC_Y_pred=SVC_clf.predict(X_test)
+#print(SVC_score)
+evaluation(Y_test,SVC_Y_pred)
+
+from xgboost import XGBClassifier
+XGB_clf=XGBClassifier()
+XGB_clf.fit(X_train,Y_train)
+XGB_score=XGB_clf.score(X_test,Y_test)
+XGB_Y_pred=XGB_clf.predict(X_test)
+#print(SVC_score)
+evaluation(Y_test,XGB_Y_pred)
+
+model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
+                    'K-Nearest Neighbour','Support Vector Machine',"XGBoost"], 'Accuracy': [LR_score*100,
+                    RF_score*100,Knn_score*100,SVC_score*100,XGB_score*100]})
+model_comp
+
+
+
+neighbors = range(1, 21) # 1 to 20
+
+# Setup algorithm
+knn = KNeighborsClassifier()
+
+# Loop through different neighbors values
+for i in neighbors:
+    knn.set_params(n_neighbors = i) # set neighbors value
+   
+    # Fit the algorithm
+    print(f"Accuracy with {i} no. of neighbors: {knn.fit(X_train, Y_train).score(X_test,Y_test)}%")
+
+np.random.seed(42)
+from sklearn.neighbors import KNeighborsClassifier
+Knn_clf=  KNeighborsClassifier(n_neighbors=7)
+Knn_clf.fit(X_train,Y_train)
+Knn_Y_pred=Knn_clf.predict(X_test)
+Knn_score=Knn_clf.score(X_test,Y_test)
+evaluation(Y_test,Knn_Y_pred)
+
+from sklearn.ensemble import RandomForestClassifier
+np.random.seed(42)
+for i in range(1,40,1):
+  print(f"With {i*10} estimators:")
+  clf2=RandomForestClassifier(n_estimators=i*10,max_depth=i,random_state=i).fit(X_train,Y_train)
+  print(f"Accuracy: {clf2.score(X_test,Y_test)*100:2f}%")
+
+  from sklearn.ensemble import RandomForestClassifier
+RF_clf2=RandomForestClassifier(n_estimators=30,max_depth=3,random_state=3)
+RF_clf2.fit(X_train,Y_train)
+RF2_acc_score=RF_clf2.score(X_test,Y_test)
+RF2_Y_pred=RF_clf2.predict(X_test)
+#print(RF2_acc_score)
+evaluation(Y_test,RF2_Y_pred)
+
+xgb = XGBClassifier(learning_rate=0.01, n_estimators=25, max_depth=15,gamma=0.6, subsample=0.52,colsample_bytree=0.6,seed=27,
+                    reg_lambda=2, booster='dart', colsample_bylevel=0.6, colsample_bynode=0.5)
+
+xgb.fit(X_train,Y_train)
+xgb_score=XGB_clf.score(X_test,Y_test)
+xgb_Y_pred=XGB_clf.predict(X_test)
+#print(SVC_score)
+evaluation(Y_test,xgb_Y_pred)
+
+from sklearn.model_selection import GridSearchCV
+ 
+# defining parameter range
+param_grid = {'C': [0.1, 1,2, 10, 100, 1000],  
+              'gamma': [1, 0.1, 0.01, 0.001, 0.0001],
+              'kernel': ['rbf','linear']}  
+ 
+gs_clf = GridSearchCV(SVC(), param_grid,cv=5, refit = True, verbose = 3)
+ 
+# fitting the model for grid search
+gs_clf.fit(X_train, Y_train)
+
+print(gs_clf.best_params_)
+
+print(f"Accuracy score:{gs_clf.score(X_test,Y_test)}%")
+
+
+knn_grid={'n_neighbors': np.arange(1,30,1),
+          'leaf_size': np.arange(1,50,1)}
+
+gs_knn=GridSearchCV(KNeighborsClassifier(),param_grid=knn_grid,cv=5,verbose=True)
+
+gs_knn.fit(X_train, Y_train)
+
+gs_knn.best_params_
+
+print(f"Accuracy score:{gs_knn.score(X_test,Y_test)*100}%")
+
+model_comp = pd.DataFrame({'Model': ['Logistic Regression','Random Forest',
+                    'K-Nearest Neighbour','Support Vector Machine','Extreme Gradient Boost'], 'Accuracy': [LR_score*100,
+                    RF2_acc_score*100,Knn_score*100,SVC_score*100, XGB_score*100]})
+model_comp
 
 from mlxtend.classifier import StackingCVClassifier
 scv=StackingCVClassifier(classifiers=[xgb,Knn_clf,RF_clf2],meta_classifier= Knn_clf)
@@ -241,7 +484,6 @@ sklearn_version = sklearn.__version__
 print(sklearn_version)
 
 
-
 from pyngrok import ngrok
 
 
@@ -260,7 +502,7 @@ model=pkl.load(open("final_model.p","rb"))
 
 
 
-st.set_page_config(page_title="Healthy Heart App",page_icon="⚕️",layout="centered",initial_sidebar_state="expanded")
+st.set_page_config(page_title="Heart_Disease",page_icon="⚕️",layout="centered",initial_sidebar_state="expanded")
 
 
 
@@ -388,3 +630,4 @@ if feedback:
 
 url = ngrok.connect(port='8501')
 url
+
