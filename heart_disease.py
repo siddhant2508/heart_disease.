@@ -1,9 +1,7 @@
 from gettext import install
 import numpy as np
 import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-import seaborn as sns
+import matplotlib 
 
 
 
@@ -29,10 +27,7 @@ pd.crosstab(df.target,df.sex)
 
 pd.crosstab(df.target,df.sex).plot(kind='bar',figsize=(10,6),color=["lightblue","pink"])
 plt.title("Frequency of Heart Disease vs Sex")
-plt.xlabel("0= Heart Disease, 1= No disease")
-plt.ylabel("Number of people with heart disease")
-plt.legend(["Female","Male"])
-plt.xticks(rotation=0);
+
 
 df.corr()
 cor_mat=df.corr()
