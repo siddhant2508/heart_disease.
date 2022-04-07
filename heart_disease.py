@@ -574,10 +574,10 @@ def preprocess(age,sex,cp,trestbps,restecg,chol,fbs,thalach,exang,oldpeak,slope,
        
     # front end elements of the web page
    
-!!!html_temp  
-<div style ="background-color:pink;padding:13px">
-    <h1 style ="color:black;text-align:center;">Healthy Heart App</h1>
-    </div>!!!
+ #html_temp  
+#<div style ="background-color:pink;padding:13px">
+ #   <h1 style ="color:black;text-align:center;">Healthy Heart App</h1>
+  #  </div>##
     
      
 # display the front end aspect
